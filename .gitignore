@@ -1,0 +1,16 @@
+# Ignore virtual environment
+.venv/
+
+# Ignore database files
+database/*.db
+
+# Ignore raw and processed data (PDBs and TSVs)
+data/raw/*
+data/processed/*
+
+# Ignore Python cache
+__pycache__/
+*.pyc
+
+# Ignore Jupyter notebook checkpoints
+.ipynb_checkpoints/
