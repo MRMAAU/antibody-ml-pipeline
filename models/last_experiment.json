@@ -1,13 +1,12 @@
 {
   "random_seed": 42,
   "test_size": 0.2,
-  "n_rows": 952,
-  "n_classes": 4,
+  "n_rows": 461,
+  "n_classes": 3,
   "class_counts": {
-    "protein": 347,
-    "peptide": 328,
-    "Hapten": 146,
-    "carbohydrate": 131
+    "peptide": 230,
+    "protein": 228,
+    "Hapten": 3
   },
   "best_feature_set": "bulk_plus_cdr3_plus_derived",
   "best_model": "random_forest",
@@ -41,133 +40,92 @@
     {
       "feature_set": "bulk_plus_cdr3_plus_derived",
       "n_features": 24,
-      "cv_mean": 0.6512795076696978,
-      "cv_std": 0.0229405207702605,
-      "cv_min": 0.6178010471204188,
-      "cv_max": 0.7105263157894737
+      "cv_mean": 0.7295932678821877,
+      "cv_std": 0.055999105592952694,
+      "cv_min": 0.6413043478260869,
+      "cv_max": 0.8260869565217391
     },
     {
       "feature_set": "bulk_plus_cdr3",
       "n_features": 14,
-      "cv_mean": 0.6362340405988793,
-      "cv_std": 0.02585777249217807,
-      "cv_min": 0.6105263157894737,
-      "cv_max": 0.6894736842105263
+      "cv_mean": 0.718848371513168,
+      "cv_std": 0.06263840385173734,
+      "cv_min": 0.5806451612903226,
+      "cv_max": 0.8260869565217391
     },
     {
       "feature_set": "bulk_only",
       "n_features": 6,
-      "cv_mean": 0.618682832736291,
-      "cv_std": 0.033680729503017585,
-      "cv_min": 0.5736842105263158,
-      "cv_max": 0.6701570680628273
+      "cv_mean": 0.7036309802088204,
+      "cv_std": 0.044961116542475685,
+      "cv_min": 0.6129032258064516,
+      "cv_max": 0.8043478260869565
     }
   ],
   "model_comparison": [
     {
       "model": "random_forest",
-      "cv_mean": 0.6451926384588923,
-      "cv_std": 0.04148273425624217,
-      "cv_min": 0.5921052631578947,
-      "cv_max": 0.7039473684210527
+      "cv_mean": 0.6984450203628285,
+      "cv_std": 0.05368037369724102,
+      "cv_min": 0.6351351351351351,
+      "cv_max": 0.7808219178082192
     },
     {
       "model": "logistic_regression",
-      "cv_mean": 0.4795923632610939,
-      "cv_std": 0.033689077672505265,
-      "cv_min": 0.42105263157894735,
-      "cv_max": 0.5131578947368421
+      "cv_mean": 0.6033320992225102,
+      "cv_std": 0.036855301811376986,
+      "cv_min": 0.5405405405405406,
+      "cv_max": 0.6486486486486487
     }
   ],
-  "holdout_accuracy": 0.6492146596858639,
+  "holdout_accuracy": 0.7311827956989247,
   "classification_report": {
     "Hapten": {
-      "precision": 0.7777777777777778,
-      "recall": 0.4827586206896552,
-      "f1-score": 0.5957446808510638,
-      "support": 29.0
-    },
-    "carbohydrate": {
-      "precision": 0.7647058823529411,
-      "recall": 0.5,
-      "f1-score": 0.6046511627906976,
-      "support": 26.0
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 1.0
     },
     "peptide": {
-      "precision": 0.5862068965517241,
-      "recall": 0.7727272727272727,
-      "f1-score": 0.6666666666666666,
-      "support": 66.0
+      "precision": 0.6909090909090909,
+      "recall": 0.8260869565217391,
+      "f1-score": 0.7524752475247525,
+      "support": 46.0
     },
     "protein": {
-      "precision": 0.6666666666666666,
-      "recall": 0.6571428571428571,
-      "f1-score": 0.6618705035971223,
-      "support": 70.0
+      "precision": 0.7894736842105263,
+      "recall": 0.6521739130434783,
+      "f1-score": 0.7142857142857143,
+      "support": 46.0
     },
-    "accuracy": 0.6492146596858639,
+    "accuracy": 0.7311827956989247,
     "macro avg": {
-      "precision": 0.6988393058372774,
-      "recall": 0.6031571876399463,
-      "f1-score": 0.6322332534763876,
-      "support": 191.0
+      "precision": 0.49346092503987243,
+      "recall": 0.49275362318840576,
+      "f1-score": 0.4889203206034889,
+      "support": 93.0
     },
     "weighted avg": {
-      "precision": 0.6690797399780758,
-      "recall": 0.6492146596858639,
-      "f1-score": 0.6456987498902489,
-      "support": 191.0
+      "precision": 0.7322323403817462,
+      "recall": 0.7311827956989247,
+      "f1-score": 0.7254946692825964,
+      "support": 93.0
     }
   },
   "top_confusions": [
     {
       "true": "protein",
       "pred": "peptide",
-      "count": 21
+      "count": 16
     },
     {
       "true": "peptide",
-      "pred": "protein",
-      "count": 12
-    },
-    {
-      "true": "carbohydrate",
-      "pred": "peptide",
-      "count": 10
-    },
-    {
-      "true": "Hapten",
       "pred": "protein",
       "count": 8
     },
     {
       "true": "Hapten",
       "pred": "peptide",
-      "count": 5
-    },
-    {
-      "true": "carbohydrate",
-      "pred": "protein",
-      "count": 3
-    },
-    {
-      "true": "protein",
-      "pred": "Hapten",
-      "count": 3
-    },
-    {
-      "true": "Hapten",
-      "pred": "carbohydrate",
-      "count": 2
-    },
-    {
-      "true": "peptide",
-      "pred": "carbohydrate",
-      "count": 2
-    },
-    {
-      "true": "peptide",
-      "pred": "Hapten",
       "count": 1
     }
   ]
