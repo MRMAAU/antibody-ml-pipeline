@@ -1,11 +1,11 @@
 import sqlite3
 import os
+from config import DB_PATH
 
 def initialize_db():
-    db_path = 'database/sabdab_features.db'
-    os.makedirs(os.path.dirname(db_path), exist_ok=True)
+    os.makedirs(os.path.dirname(DB_PATH), exist_ok=True)
     
-    conn = sqlite3.connect(db_path)
+    conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
     
     # 1. Nuke the old table so we can rebuild it fresh
@@ -32,7 +32,7 @@ def initialize_db():
     
     conn.commit()
     conn.close()
-    print(f"Success! Database wiped and rebuilt with new columns at {db_path}")
+    print(f"Success! Database wiped and rebuilt with new columns at {DB_PATH}")
 
 if __name__ == "__main__":
     initialize_db()
