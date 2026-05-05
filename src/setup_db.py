@@ -26,7 +26,17 @@ def initialize_db():
             heavy_gravy REAL,
             light_mw REAL,
             light_pi REAL,
-            light_gravy REAL
+            light_gravy REAL,
+            cdrh3_sequence TEXT,
+            cdrl3_sequence TEXT,
+            cdrh3_mw REAL,
+            cdrh3_pi REAL,
+            cdrh3_gravy REAL,
+            cdrh3_charge REAL,
+            cdrl3_mw REAL,
+            cdrl3_pi REAL,
+            cdrl3_gravy REAL,
+            cdrl3_charge REAL
         )
     ''')
     

@@ -1,0 +1,174 @@
+{
+  "random_seed": 42,
+  "test_size": 0.2,
+  "n_rows": 952,
+  "n_classes": 4,
+  "class_counts": {
+    "protein": 347,
+    "peptide": 328,
+    "Hapten": 146,
+    "carbohydrate": 131
+  },
+  "best_feature_set": "bulk_plus_cdr3_plus_derived",
+  "best_model": "random_forest",
+  "feature_columns": [
+    "heavy_mw",
+    "heavy_pi",
+    "heavy_gravy",
+    "light_mw",
+    "light_pi",
+    "light_gravy",
+    "cdrh3_mw",
+    "cdrh3_pi",
+    "cdrh3_gravy",
+    "cdrh3_charge",
+    "cdrl3_mw",
+    "cdrl3_pi",
+    "cdrl3_gravy",
+    "cdrl3_charge",
+    "heavy_chain_length",
+    "light_chain_length",
+    "chain_length_ratio",
+    "chain_length_diff",
+    "heavy_basic_frac",
+    "light_basic_frac",
+    "heavy_aromatic_frac",
+    "light_aromatic_frac",
+    "cdrh3_length",
+    "cdrl3_length"
+  ],
+  "feature_set_comparison": [
+    {
+      "feature_set": "bulk_plus_cdr3_plus_derived",
+      "n_features": 24,
+      "cv_mean": 0.6512795076696978,
+      "cv_std": 0.0229405207702605,
+      "cv_min": 0.6178010471204188,
+      "cv_max": 0.7105263157894737
+    },
+    {
+      "feature_set": "bulk_plus_cdr3",
+      "n_features": 14,
+      "cv_mean": 0.6362340405988793,
+      "cv_std": 0.02585777249217807,
+      "cv_min": 0.6105263157894737,
+      "cv_max": 0.6894736842105263
+    },
+    {
+      "feature_set": "bulk_only",
+      "n_features": 6,
+      "cv_mean": 0.618682832736291,
+      "cv_std": 0.033680729503017585,
+      "cv_min": 0.5736842105263158,
+      "cv_max": 0.6701570680628273
+    }
+  ],
+  "model_comparison": [
+    {
+      "model": "random_forest",
+      "cv_mean": 0.6451926384588923,
+      "cv_std": 0.04148273425624217,
+      "cv_min": 0.5921052631578947,
+      "cv_max": 0.7039473684210527
+    },
+    {
+      "model": "logistic_regression",
+      "cv_mean": 0.4795923632610939,
+      "cv_std": 0.033689077672505265,
+      "cv_min": 0.42105263157894735,
+      "cv_max": 0.5131578947368421
+    }
+  ],
+  "holdout_accuracy": 0.6492146596858639,
+  "classification_report": {
+    "Hapten": {
+      "precision": 0.7777777777777778,
+      "recall": 0.4827586206896552,
+      "f1-score": 0.5957446808510638,
+      "support": 29.0
+    },
+    "carbohydrate": {
+      "precision": 0.7647058823529411,
+      "recall": 0.5,
+      "f1-score": 0.6046511627906976,
+      "support": 26.0
+    },
+    "peptide": {
+      "precision": 0.5862068965517241,
+      "recall": 0.7727272727272727,
+      "f1-score": 0.6666666666666666,
+      "support": 66.0
+    },
+    "protein": {
+      "precision": 0.6666666666666666,
+      "recall": 0.6571428571428571,
+      "f1-score": 0.6618705035971223,
+      "support": 70.0
+    },
+    "accuracy": 0.6492146596858639,
+    "macro avg": {
+      "precision": 0.6988393058372774,
+      "recall": 0.6031571876399463,
+      "f1-score": 0.6322332534763876,
+      "support": 191.0
+    },
+    "weighted avg": {
+      "precision": 0.6690797399780758,
+      "recall": 0.6492146596858639,
+      "f1-score": 0.6456987498902489,
+      "support": 191.0
+    }
+  },
+  "top_confusions": [
+    {
+      "true": "protein",
+      "pred": "peptide",
+      "count": 21
+    },
+    {
+      "true": "peptide",
+      "pred": "protein",
+      "count": 12
+    },
+    {
+      "true": "carbohydrate",
+      "pred": "peptide",
+      "count": 10
+    },
+    {
+      "true": "Hapten",
+      "pred": "protein",
+      "count": 8
+    },
+    {
+      "true": "Hapten",
+      "pred": "peptide",
+      "count": 5
+    },
+    {
+      "true": "carbohydrate",
+      "pred": "protein",
+      "count": 3
+    },
+    {
+      "true": "protein",
+      "pred": "Hapten",
+      "count": 3
+    },
+    {
+      "true": "Hapten",
+      "pred": "carbohydrate",
+      "count": 2
+    },
+    {
+      "true": "peptide",
+      "pred": "carbohydrate",
+      "count": 2
+    },
+    {
+      "true": "peptide",
+      "pred": "Hapten",
+      "count": 1
+    }
+  ]
+}

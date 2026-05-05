@@ -11,6 +11,13 @@ from config import DB_PATH, SABDAB_SUMMARY_TSV, RAW_DATA_DIR
 
 warnings.simplefilter('ignore', BiopythonWarning)
 
+# IMGT CDR3 definitions (approximate residue ranges in IMGT numbering)
+# CDR3 spans positions 105-117 in IMGT for both heavy and light chains
+# We'll use a heuristic: look for Cys at ~position 104 and Trp/Phe at ~position 117
+# For simplicity, we extract the region between conserved Cys and Trp/Phe in the full sequence
+CDR3_CYS_PATTERN = 'C'  # CDR3 starts after conserved Cys
+CDR3_END_PATTERN = ['W', 'F']  # CDR3 typically ends with Trp or Phe
+
 
 def get_chain_sequence(chain):
     sequence = ""
@@ -30,6 +37,52 @@ def calculate_biochemical_features(sequence):
     return analysis.molecular_weight(), analysis.isoelectric_point(), analysis.gravy()
 
 
+def calculate_charge_at_pH7(sequence):
+    """Compute net charge at pH 7.0 for a sequence."""
+    if not sequence:
+        return 0.0
+    clean_seq = sequence.replace('X', '')
+    if not clean_seq:
+        return 0.0
+    try:
+        analysis = ProteinAnalysis(clean_seq)
+        return analysis.charge_at_pH(7.0)
+    except:
+        return 0.0
+
+
+def extract_cdr3_heuristic(sequence):
+    """
+    Extract CDR3 from antibody sequence using a heuristic approach.
+    CDR3 typically starts after a conserved Cys (position ~104 in IMGT)
+    and ends with Trp/Phe (position ~117 in IMGT).
+    
+    This is a rough approximation; anarci with HMMER would be more accurate.
+    """
+    if not sequence or len(sequence) < 120:
+        return ""
+    
+    # Find all Cys positions after position 90 (rough CDR2/CDR3 boundary)
+    cys_positions = [i for i, aa in enumerate(sequence[90:], start=90) if aa == 'C']
+    if not cys_positions:
+        return ""
+    
+    # Use the last Cys (closest to CDR3 start)
+    cdr3_start = cys_positions[-1] + 1
+    if cdr3_start >= len(sequence):
+        return ""
+    
+    # Find Trp or Phe after CDR3 start (should be within ~20 residues)
+    cdr3_end = len(sequence)
+    for i in range(cdr3_start, min(cdr3_start + 30, len(sequence))):
+        if sequence[i] in ['W', 'F']:
+            cdr3_end = i + 1
+            break
+    
+    cdr3 = sequence[cdr3_start:cdr3_end]
+    return cdr3 if cdr3 else ""
+
+
 def extract_and_save_features(pdb_filepath, pdb_id, heavy_chain_id, light_chain_id):
     parser = PDBParser(QUIET=True)
 
@@ -45,6 +98,17 @@ def extract_and_save_features(pdb_filepath, pdb_id, heavy_chain_id, light_chain_
 
         h_mw, h_pi, h_gravy = calculate_biochemical_features(heavy_seq)
         l_mw, l_pi, l_gravy = calculate_biochemical_features(light_seq)
+        
+        # Extract CDR3 sequences
+        cdrh3_seq = extract_cdr3_heuristic(heavy_seq)
+        cdrl3_seq = extract_cdr3_heuristic(light_seq)
+        
+        # Compute CDR3 features
+        cdrh3_mw, cdrh3_pi, cdrh3_gravy = calculate_biochemical_features(cdrh3_seq)
+        cdrh3_charge = calculate_charge_at_pH7(cdrh3_seq)
+        
+        cdrl3_mw, cdrl3_pi, cdrl3_gravy = calculate_biochemical_features(cdrl3_seq)
+        cdrl3_charge = calculate_charge_at_pH7(cdrl3_seq)
 
     except KeyError as e:
         print(f"[{pdb_id}] Skipped: Chain {e} not found in structure.")
@@ -59,10 +123,14 @@ def extract_and_save_features(pdb_filepath, pdb_id, heavy_chain_id, light_chain_
         cursor.execute('''
             INSERT OR REPLACE INTO antibodies
             (pdb_id, heavy_chain_id, light_chain_id, heavy_chain_length, light_chain_length,
-             heavy_sequence, light_sequence, heavy_mw, heavy_pi, heavy_gravy, light_mw, light_pi, light_gravy)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+             heavy_sequence, light_sequence, heavy_mw, heavy_pi, heavy_gravy, light_mw, light_pi, light_gravy,
+             cdrh3_sequence, cdrl3_sequence, cdrh3_mw, cdrh3_pi, cdrh3_gravy, cdrh3_charge,
+             cdrl3_mw, cdrl3_pi, cdrl3_gravy, cdrl3_charge)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         ''', (pdb_id, heavy_chain_id, light_chain_id, len(heavy_seq), len(light_seq),
-              heavy_seq, light_seq, h_mw, h_pi, h_gravy, l_mw, l_pi, l_gravy))
+              heavy_seq, light_seq, h_mw, h_pi, h_gravy, l_mw, l_pi, l_gravy,
+              cdrh3_seq, cdrl3_seq, cdrh3_mw, cdrh3_pi, cdrh3_gravy, cdrh3_charge,
+              cdrl3_mw, cdrl3_pi, cdrl3_gravy, cdrl3_charge))
         conn.commit()
         conn.close()
         return True
