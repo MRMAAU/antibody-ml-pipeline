@@ -32,7 +32,7 @@ from config import DB_PATH
 # Smallest ESM-2: 6 layers, 8M params, 320-dim hidden, fast on CPU
 # Upgrade to facebook/esm2_t12_35M_UR50D (480-dim) if you want a boost
 # and have ~15 min to wait.
-ESM_MODEL_NAME = "facebook/esm2_t6_8M_650K"
+ESM_MODEL_NAME = "facebook/esm2_t6_8M_UR50D"
 EMBED_DIM = 320          # matches the model above; update if you swap models
 BATCH_SIZE = 32          # safe for 8GB RAM on CDR3-length sequences
 OUTPUT_PATH = Path("models") / "esm_embeddings.npz"

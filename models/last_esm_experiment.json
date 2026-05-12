@@ -1,0 +1,74 @@
+{
+  "model": "random_forest",
+  "feature_set": "esm_plus_physchem",
+  "holdout_accuracy": 0.7608695652173914,
+  "feature_set_comparison": [
+    {
+      "feature_set": "esm_plus_physchem",
+      "n_features": 664,
+      "cv_mean": 0.7889950629081064,
+      "cv_std": 0.02492647016142685,
+      "cv_min": 0.7391304347826086,
+      "cv_max": 0.8351648351648352
+    },
+    {
+      "feature_set": "esm_only",
+      "n_features": 640,
+      "cv_mean": 0.7860566969262621,
+      "cv_std": 0.02550991338230928,
+      "cv_min": 0.7582417582417582,
+      "cv_max": 0.8461538461538461
+    },
+    {
+      "feature_set": "physchem_only",
+      "n_features": 24,
+      "cv_mean": 0.7343924191750278,
+      "cv_std": 0.03916387859482097,
+      "cv_min": 0.6739130434782609,
+      "cv_max": 0.7912087912087912
+    }
+  ],
+  "model_comparison": [
+    {
+      "model": "random_forest",
+      "cv_mean": 0.7896334690855239,
+      "cv_std": 0.02370927000227334,
+      "cv_min": 0.7534246575342466,
+      "cv_max": 0.821917808219178
+    },
+    {
+      "model": "logistic_regression",
+      "cv_mean": 0.7623843021103295,
+      "cv_std": 0.07347703902593702,
+      "cv_min": 0.684931506849315,
+      "cv_max": 0.8904109589041096
+    }
+  ],
+  "classification_report": {
+    "peptide": {
+      "precision": 0.74,
+      "recall": 0.8043478260869565,
+      "f1-score": 0.7708333333333334,
+      "support": 46.0
+    },
+    "protein": {
+      "precision": 0.7857142857142857,
+      "recall": 0.717391304347826,
+      "f1-score": 0.75,
+      "support": 46.0
+    },
+    "accuracy": 0.7608695652173914,
+    "macro avg": {
+      "precision": 0.7628571428571429,
+      "recall": 0.7608695652173914,
+      "f1-score": 0.7604166666666667,
+      "support": 92.0
+    },
+    "weighted avg": {
+      "precision": 0.7628571428571427,
+      "recall": 0.7608695652173914,
+      "f1-score": 0.7604166666666667,
+      "support": 92.0
+    }
+  }
+}

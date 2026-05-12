@@ -225,6 +225,9 @@ def train_esm_model() -> None:
     embeddings   = embeddings[row_indices]
 
     y = df["target"]
+    mask = y != "Hapten"
+    embeddings, df, y = embeddings[mask], df[mask], y[mask]
+    print(f"After dropping Hapten: {len(df)} samples")
     print(f"\nDataset: {len(df)} antibodies, {y.nunique()} classes")
     print(y.value_counts().to_string())
     print()
